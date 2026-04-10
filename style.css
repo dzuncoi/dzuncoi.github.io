@@ -405,6 +405,27 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: var(--ctp-red);
 }
 
+/* Tab buffer number indicator */
+.tab-num {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ctp-overlay0);
+  min-width: 14px;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ctp-surface0);
+  border-radius: 3px;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.tab.active .tab-num {
+  color: var(--ctp-mauve);
+  background: var(--ctp-surface1);
+}
+
 /* Tab file-type icons via ::before pseudo-element */
 .tab .icon-lua::before,
 .tab .icon-log::before,
