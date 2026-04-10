@@ -426,20 +426,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   background: var(--ctp-surface1);
 }
 
-/* Tab file-type icons via ::before pseudo-element */
+/* Tab file-type icons — hidden now that we have number badges */
 .tab .icon-lua::before,
 .tab .icon-log::before,
 .tab .icon-json::before,
 .tab .icon-yaml::before,
 .tab .icon-sh::before {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
-  margin-right: 4px;
-  vertical-align: middle;
-  flex-shrink: 0;
+  display: none;
 }
 
 .icon-lua::before  { background: var(--ctp-blue);   border-radius: 50%; }
