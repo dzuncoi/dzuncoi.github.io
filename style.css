@@ -134,6 +134,206 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   border: 1px solid var(--ctp-surface0);
 }
 
+.nvim.loading {
+  /* Editor hidden behind splash */
+}
+
+.nvim.loading .tabline,
+.nvim.loading .editor-area,
+.nvim.loading .statusline,
+.nvim.loading .hint-bar,
+.nvim.loading .cmdline {
+  opacity: 0;
+}
+
+.nvim.ready .tabline,
+.nvim.ready .editor-area,
+.nvim.ready .statusline,
+.nvim.ready .cmdline {
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+
+.nvim.ready .hint-bar {
+  transition: opacity 0.5s ease 1s;
+}
+
+/* ============================================================
+   1b. SPLASH SCREEN (alpha-nvim dashboard)
+   ============================================================ */
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.splash-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  text-align: center;
+  max-width: 600px;
+  padding: 24px;
+}
+
+/* ASCII art */
+.splash-ascii {
+  font-family: var(--font);
+  font-size: clamp(10px, 2.5vw, 16px);
+  line-height: 1.3;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: splashFadeIn 0.4s ease 0.1s forwards;
+}
+
+.ascii-mauve { color: var(--ctp-mauve); }
+.ascii-blue  { color: var(--ctp-blue); }
+.ascii-green { color: var(--ctp-green); }
+
+/* Name & role */
+.splash-name {
+  font-family: var(--font);
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 700;
+  color: var(--ctp-text);
+  margin-bottom: 6px;
+  opacity: 0;
+  animation: splashFadeIn 0.4s ease 0.3s forwards;
+}
+
+.splash-role {
+  font-size: clamp(14px, 2.5vw, 18px);
+  color: var(--ctp-blue);
+  font-weight: 500;
+  margin-bottom: 4px;
+  opacity: 0;
+  animation: splashFadeIn 0.4s ease 0.45s forwards;
+}
+
+.splash-tagline {
+  font-size: 13px;
+  color: var(--ctp-overlay1);
+  font-style: italic;
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: splashFadeIn 0.4s ease 0.55s forwards;
+}
+
+/* Blinking cursor */
+.splash-cursor {
+  color: var(--ctp-green);
+  font-size: 18px;
+  line-height: 1;
+  margin-bottom: 24px;
+  animation: splashCursorBlink 1s step-end infinite;
+  opacity: 0;
+  animation: splashFadeIn 0.3s ease 0.6s forwards, splashCursorBlink 1s step-end 0.6s infinite;
+}
+
+@keyframes splashCursorBlink {
+  50% { opacity: 0; }
+}
+
+/* Navigation buttons */
+.splash-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 28px;
+  width: 100%;
+  max-width: 280px;
+  opacity: 0;
+  animation: splashFadeIn 0.4s ease 0.7s forwards;
+}
+
+.splash-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 20px;
+  color: var(--ctp-subtext1);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-family: var(--font);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.splash-btn:hover {
+  background: var(--ctp-surface0);
+  border-color: var(--ctp-surface1);
+  color: var(--ctp-text);
+}
+
+.splash-btn:hover kbd {
+  background: var(--ctp-surface1);
+  border-color: var(--ctp-surface2);
+  color: var(--ctp-blue);
+}
+
+.splash-btn kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  padding: 1px 6px;
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ctp-mauve);
+  background: var(--ctp-surface0);
+  border: 1px solid var(--ctp-surface1);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+}
+
+.splash-btn-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Press any key hint */
+.splash-hint {
+  font-size: 12px;
+  color: var(--ctp-overlay0);
+  margin-bottom: 12px;
+  opacity: 0;
+  animation: splashFadeIn 0.4s ease 0.9s forwards, splashPulse 2.5s ease-in-out 1.3s infinite;
+}
+
+@keyframes splashPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Footer */
+.splash-footer {
+  font-size: 11px;
+  color: var(--ctp-surface2);
+  opacity: 0;
+  animation: splashFadeIn 0.4s ease 1s forwards;
+}
+
+@keyframes splashFadeIn {
+  to { opacity: 1; }
+}
+
 /* ============================================================
    2. TABLINE
    ============================================================ */
@@ -678,80 +878,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 /* ============================================================
-   7c. WELCOME TOAST
-   ============================================================ */
-.welcome-toast {
-  position: fixed;
-  bottom: 60px;
-  right: 20px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  background: var(--ctp-surface0);
-  border: 1px solid var(--ctp-mauve);
-  border-radius: 8px;
-  padding: 14px 18px;
-  max-width: 340px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  z-index: 9999;
-  font-family: var(--font);
-  opacity: 0;
-  transform: translateY(20px);
-  animation: toastIn 0.5s ease 1.5s forwards;
-}
-.welcome-toast.hidden {
-  animation: toastOut 0.3s ease forwards;
-}
-@keyframes toastIn {
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes toastOut {
-  to { opacity: 0; transform: translateY(20px); pointer-events: none; }
-}
-.toast-icon {
-  font-size: 18px;
-  line-height: 1;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.toast-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--ctp-text);
-  margin-bottom: 4px;
-}
-.toast-text {
-  font-size: 12px;
-  color: var(--ctp-subtext0);
-  line-height: 1.5;
-}
-.toast-text kbd {
-  display: inline-block;
-  padding: 0 5px;
-  background: var(--ctp-surface1);
-  border: 1px solid var(--ctp-surface2);
-  border-radius: 3px;
-  font-family: var(--font);
-  font-size: 11px;
-  color: var(--ctp-mauve);
-  line-height: 16px;
-}
-.toast-close {
-  background: none;
-  border: none;
-  color: var(--ctp-overlay0);
-  font-size: 18px;
-  cursor: pointer;
-  padding: 0;
-  line-height: 1;
-  flex-shrink: 0;
-  transition: color 0.2s;
-}
-.toast-close:hover {
-  color: var(--ctp-text);
-}
-
-/* ============================================================
    8. COMMAND LINE
    ============================================================ */
 .cmdline {
@@ -995,6 +1121,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     padding: 12px 16px;
     bottom: 50px;
   }
+
+  .splash-ascii {
+    font-size: clamp(8px, 2vw, 12px);
+  }
+  .splash-nav {
+    max-width: 240px;
+  }
+  .splash-btn {
+    padding: 6px 14px;
+    font-size: 13px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1020,6 +1157,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .status-segment.encoding,
   .status-segment.filetype {
     display: none;
+  }
+
+  .splash-ascii {
+    font-size: 8px;
+  }
+  .splash-name {
+    font-size: 20px;
   }
 }
 

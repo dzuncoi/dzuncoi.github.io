@@ -11,7 +11,57 @@
 </head>
 <body>
 
-  <div class="nvim" id="nvimRoot">
+  <div class="nvim loading" id="nvimRoot">
+
+    <!-- ===== SPLASH SCREEN (alpha-nvim style) ===== -->
+    <div class="splash-screen" id="splashScreen" role="dialog" aria-label="Portfolio introduction">
+      <div class="splash-content">
+        <pre class="splash-ascii" aria-hidden="true">
+<span class="ascii-mauve"> _   _                 _            </span>
+<span class="ascii-blue">| \ | | ___  _____   _(_)_ __ ___   </span>
+<span class="ascii-green">|  \| |/ _ \/ _ \ \ / / | '_ ` _ \  </span>
+<span class="ascii-mauve">| |\  |  __/ (_) \ V /| | | | | | | </span>
+<span class="ascii-blue">|_| \_|\___|\___/ \_/ |_|_| |_| |_| </span>
+<span class="ascii-green">                                    </span></pre>
+
+        <h1 class="splash-name">Your Name</h1>
+        <p class="splash-role">Software Engineer</p>
+        <p class="splash-tagline">I live in the terminal and dream in Lua.</p>
+
+        <div class="splash-cursor">&#9608;</div>
+
+        <nav class="splash-nav" aria-label="Quick navigation">
+          <button class="splash-btn" data-tab="about" role="button" aria-label="Open About">
+            <kbd>a</kbd>
+            <span class="splash-btn-icon">&#59196;</span>
+            <span>About</span>
+          </button>
+          <button class="splash-btn" data-tab="experience" role="button" aria-label="Open Experience">
+            <kbd>x</kbd>
+            <span class="splash-btn-icon">&#128188;</span>
+            <span>Experience</span>
+          </button>
+          <button class="splash-btn" data-tab="projects" role="button" aria-label="Open Projects">
+            <kbd>p</kbd>
+            <span class="splash-btn-icon">&#128187;</span>
+            <span>Projects</span>
+          </button>
+          <button class="splash-btn" data-tab="skills" role="button" aria-label="Open Skills">
+            <kbd>s</kbd>
+            <span class="splash-btn-icon">&#9881;</span>
+            <span>Skills</span>
+          </button>
+          <button class="splash-btn" data-tab="contact" role="button" aria-label="Open Contact">
+            <kbd>c</kbd>
+            <span class="splash-btn-icon">&#9993;</span>
+            <span>Contact</span>
+          </button>
+        </nav>
+
+        <p class="splash-hint">Press any key to enter the editor...</p>
+        <p class="splash-footer">NVIM v0.10.0-portfolio &nbsp;|&nbsp; :q to quit (good luck)</p>
+      </div>
+    </div>
 
     <!-- ===== TABLINE ===== -->
     <div class="tabline">
@@ -44,7 +94,7 @@
     <div class="editor-area">
 
       <!-- SIDEBAR (nvim-tree) -->
-      <aside class="sidebar" id="sidebar">
+      <aside class="sidebar collapsed" id="sidebar">
         <div class="sidebar-header">
           <span class="sidebar-title">EXPLORER</span>
           <button class="sidebar-collapse" id="sidebarToggle" aria-label="Toggle sidebar">&#x2630;</button>
@@ -604,15 +654,6 @@
       <span class="hint-keys"><kbd>:</kbd> cmd</span>
     </div>
 
-    <!-- ===== WELCOME TOAST ===== -->
-    <div class="welcome-toast" id="welcomeToast">
-      <div class="toast-icon">&#9889;</div>
-      <div class="toast-body">
-        <div class="toast-title">Welcome to my Neovim portfolio!</div>
-        <div class="toast-text">Use keyboard shortcuts to navigate. Press <kbd>?</kbd> to see all keybindings.</div>
-      </div>
-      <button class="toast-close" id="toastClose">&times;</button>
-    </div>
 
     <!-- ===== COMMAND LINE ===== -->
     <div class="cmdline" id="cmdline">

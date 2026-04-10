@@ -39,6 +39,84 @@ document.addEventListener('DOMContentLoaded', () => {
   const whichKey     = document.getElementById('whichKey');
   const editorPane   = document.querySelector('.editor-pane');
 
+  // ========================================
+  // SPLASH SCREEN
+  // ========================================
+  const splashScreen = document.getElementById('splashScreen');
+  const splashBtns   = document.querySelectorAll('.splash-btn');
+  const hintBar      = document.getElementById('hintBar');
+  const nvimRoot     = document.getElementById('nvimRoot');
+  let splashDismissed = false;
+
+  function dismissSplash(targetTab) {
+    if (splashDismissed) return;
+    splashDismissed = true;
+
+    // Mark visited
+    sessionStorage.setItem('nvim-portfolio-visited', '1');
+
+    // Fade out splash
+    splashScreen.classList.add('hidden');
+
+    // Reveal editor
+    nvimRoot.classList.remove('loading');
+    nvimRoot.classList.add('ready');
+
+    // Show hint bar with delay (the CSS transition has 1s delay)
+    if (hintBar) {
+      hintBar.style.opacity = '1';
+    }
+
+    // Switch to target tab (this triggers cmdline animation as bridge)
+    switchTab(targetTab || 'about');
+
+    // Expand sidebar for return visitors pattern
+    // (first visit starts collapsed, user can toggle with 'e')
+
+    // Clean up splash from DOM after transition
+    splashScreen.addEventListener('transitionend', () => {
+      splashScreen.remove();
+    }, { once: true });
+  }
+
+  // Check if return visitor
+  const hasVisited = sessionStorage.getItem('nvim-portfolio-visited');
+  if (hasVisited && splashScreen) {
+    // Skip splash — show editor immediately
+    splashScreen.remove();
+    nvimRoot.classList.remove('loading');
+    nvimRoot.classList.add('ready');
+    if (hintBar) hintBar.style.opacity = '1';
+    // Expand sidebar for return visitors
+    if (sidebar) sidebar.classList.remove('collapsed');
+    splashDismissed = true;
+  }
+
+  // Splash button click handlers
+  splashBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      dismissSplash(btn.getAttribute('data-tab'));
+    });
+  });
+
+  // Splash keyboard handler (any key dismisses, specific keys go to specific tabs)
+  const SPLASH_KEY_MAP = { a: 'about', x: 'experience', p: 'projects', s: 'skills', c: 'contact' };
+
+  function splashKeyHandler(e) {
+    if (splashDismissed) {
+      document.removeEventListener('keydown', splashKeyHandler);
+      return;
+    }
+    e.preventDefault();
+    const target = SPLASH_KEY_MAP[e.key.toLowerCase()];
+    dismissSplash(target || 'about');
+    document.removeEventListener('keydown', splashKeyHandler);
+  }
+
+  if (!hasVisited && splashScreen) {
+    document.addEventListener('keydown', splashKeyHandler);
+  }
+
   let currentTab      = 'about';
   let cmdlineTimer    = null;
   let modeTimer       = null;
@@ -112,6 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Don't capture keys if user is in an input/textarea
     const tag = e.target.tagName.toLowerCase();
     if (tag === 'input' || tag === 'textarea') return;
+    // Don't capture keys if splash is still showing
+    if (!splashDismissed) return;
 
     const key = e.key;
 
@@ -462,59 +542,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ========================================
-  // 7. STARTUP ANIMATION
+  // 7. STARTUP
   // ========================================
-  // On page load, briefly show `:e about.lua`
-  setTimeout(() => {
-    animateCmdline(':e about.lua');
-  }, 300);
 
   // Initial mode
   setMode('NORMAL');
 
   // Initial scroll position
   updateScrollPosition();
-
-  // ========================================
-  // 8. WELCOME TOAST (first visit)
-  // ========================================
-  const welcomeToast = document.getElementById('welcomeToast');
-  const toastClose   = document.getElementById('toastClose');
-
-  if (welcomeToast) {
-    const hasVisited = sessionStorage.getItem('nvim-portfolio-visited');
-
-    if (hasVisited) {
-      // Returning visitor in this session — remove toast immediately
-      welcomeToast.remove();
-    } else {
-      sessionStorage.setItem('nvim-portfolio-visited', '1');
-
-      // Auto-dismiss after 8 seconds
-      const autoDismiss = setTimeout(() => {
-        dismissToast();
-      }, 9500); // 1.5s delay for animation + 8s visible
-
-      function dismissToast() {
-        clearTimeout(autoDismiss);
-        welcomeToast.classList.add('hidden');
-        welcomeToast.addEventListener('animationend', () => {
-          welcomeToast.remove();
-        }, { once: true });
-      }
-
-      if (toastClose) {
-        toastClose.addEventListener('click', dismissToast);
-      }
-
-      // Also dismiss when user presses ? (they found the help)
-      document.addEventListener('keydown', function dismissOnHelp(e) {
-        if (e.key === '?') {
-          dismissToast();
-          document.removeEventListener('keydown', dismissOnHelp);
-        }
-      });
-    }
-  }
 
 });
