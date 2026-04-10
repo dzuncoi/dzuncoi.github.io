@@ -579,18 +579,23 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   text-transform: uppercase;
 }
 
-.status-mode.mode-normal {
+.status-mode.normal {
   background: var(--ctp-green);
   color: var(--ctp-crust);
 }
 
-.status-mode.mode-insert {
+.status-mode.insert {
   background: var(--ctp-blue);
   color: var(--ctp-crust);
 }
 
 .status-mode.visual {
   background: var(--ctp-mauve);
+  color: var(--ctp-crust);
+}
+
+.status-mode.command {
+  background: var(--ctp-peach);
   color: var(--ctp-crust);
 }
 
@@ -749,12 +754,83 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* ============================================================
    8. COMMAND LINE
    ============================================================ */
-.cmdline { grid-area: cmdline; background: var(--bg); font-size: 13px; color: var(--ctp-text); display: flex; align-items: center; padding: 0 12px; opacity: 0; height: 0; overflow: hidden; transition: opacity 0.15s ease, height 0.15s ease; }
-.cmdline.active { opacity: 1; height: 28px; }
-.cmdline-prompt { color: var(--ctp-overlay2); margin-right: 4px; font-weight: 700; }
-.cmdline-input { flex: 1; background: none; border: none; outline: none; color: var(--ctp-text); font-family: var(--font); font-size: 13px; caret-color: var(--ctp-green); }
-.cmdline-cursor { display: inline-block; width: 7px; height: 1.2em; background: var(--ctp-text); animation: cursor-blink 1s step-end infinite; vertical-align: text-bottom; }
-@keyframes cursor-blink { 50% { opacity: 0; } }
+.cmdline {
+  grid-area: cmdline;
+  background: var(--bg);
+  font-size: 13px;
+  color: var(--ctp-text);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: opacity 0.15s ease, height 0.15s ease;
+  font-family: var(--font);
+}
+
+.cmdline.active {
+  opacity: 1;
+  height: 28px;
+}
+
+.cmdline-prompt {
+  color: var(--ctp-overlay2);
+  margin-right: 4px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.cmdline-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--ctp-text);
+  font-family: var(--font);
+  font-size: 13px;
+  caret-color: var(--ctp-green);
+  padding: 0;
+  min-width: 0;
+}
+
+.cmdline-hint {
+  color: var(--ctp-overlay0);
+  font-size: 12px;
+  margin-left: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Message bar (shows feedback after commands) */
+.cmdline-msg {
+  position: fixed;
+  bottom: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ctp-surface0);
+  border: 1px solid var(--ctp-surface1);
+  border-radius: 6px;
+  padding: 6px 16px;
+  font-family: var(--font);
+  font-size: 12px;
+  color: var(--ctp-text);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 100;
+}
+
+.cmdline-msg.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cmdline-msg.error {
+  color: var(--ctp-red);
+  border-color: var(--ctp-red);
+}
 
 /* ============================================================
    9. WHICH-KEY POPUP

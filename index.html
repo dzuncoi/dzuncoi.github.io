@@ -617,9 +617,12 @@
     <!-- ===== COMMAND LINE ===== -->
     <div class="cmdline" id="cmdline">
       <span class="cmdline-prompt">:</span>
-      <span class="cmdline-text" id="cmdlineText"></span>
-      <span class="cmdline-cursor">|</span>
+      <input type="text" class="cmdline-input" id="cmdlineInput" autocomplete="off" spellcheck="false" />
+      <span class="cmdline-hint" id="cmdlineHint"></span>
     </div>
+
+    <!-- ===== COMMAND LINE ERROR/MESSAGE ===== -->
+    <div class="cmdline-msg" id="cmdlineMsg"></div>
 
     <!-- ===== WHICH-KEY POPUP ===== -->
     <div class="which-key" id="whichKey">
@@ -633,7 +636,16 @@
         <div class="wk-sep"></div>
         <div class="wk-item"><kbd>e</kbd> <span>toggle explorer</span></div>
         <div class="wk-item"><kbd>?</kbd> <span>toggle help</span></div>
-        <div class="wk-item"><kbd>j/k</kbd> <span>scroll</span></div>
+        <div class="wk-item"><kbd>j/k</kbd> <span>scroll down/up</span></div>
+        <div class="wk-item"><kbd>:</kbd> <span>command line</span></div>
+      </div>
+      <div class="wk-title wk-title-cmd">Commands</div>
+      <div class="wk-grid">
+        <div class="wk-item"><kbd>:e &lt;file&gt;</kbd> <span>open buffer</span></div>
+        <div class="wk-item"><kbd>:bn / :bp</kbd> <span>next / prev buffer</span></div>
+        <div class="wk-item"><kbd>:ls</kbd> <span>list buffers</span></div>
+        <div class="wk-item"><kbd>:help</kbd> <span>show keybindings</span></div>
+        <div class="wk-item"><kbd>:q</kbd> <span>rickroll</span></div>
       </div>
     </div>
 
