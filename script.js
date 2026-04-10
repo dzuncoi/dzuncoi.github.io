@@ -70,8 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
     statusFt.textContent   = info.ft;
     statusPos.textContent  = 'Ln 1, Col 1';
 
-    // Reset scroll of the newly-visible buffer
-    document.getElementById(`buf-${tabName}`).scrollTop = 0;
+    // Reset scroll of the editor pane when switching buffers
+    if (editorPane) {
+      editorPane.scrollTop = 0;
+    }
     updateScrollPosition();
 
     // Command line animation
@@ -142,12 +144,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // j: scroll down
     if (key === 'j') {
+      e.preventDefault();
       scrollActiveBuffer(80);
       return;
     }
 
     // k: scroll up
     if (key === 'k') {
+      e.preventDefault();
       scrollActiveBuffer(-80);
       return;
     }
@@ -164,9 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // SCROLL HELPERS
   // ========================================
   function scrollActiveBuffer(amount) {
-    const active = document.querySelector('.buffer.active');
-    if (active) {
-      active.scrollBy({ top: amount, behavior: 'smooth' });
+    if (editorPane) {
+      editorPane.scrollBy({ top: amount, behavior: 'smooth' });
     }
   }
 
@@ -253,12 +256,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // 6. SCROLL POSITION TRACKING
   // ========================================
   function updateScrollPosition() {
-    const active = document.querySelector('.buffer.active');
-    if (!active) return;
+    if (!editorPane) return;
 
-    const scrollTop    = active.scrollTop;
-    const scrollHeight = active.scrollHeight;
-    const clientHeight = active.clientHeight;
+    const scrollTop    = editorPane.scrollTop;
+    const scrollHeight = editorPane.scrollHeight;
+    const clientHeight = editorPane.clientHeight;
 
     // Approximate line number (assuming ~20px per line)
     const lineHeight = 20;
@@ -282,10 +284,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Attach scroll listener to each buffer
-  buffers.forEach(buf => {
-    buf.addEventListener('scroll', updateScrollPosition);
-  });
+  // Attach scroll listener to the editor pane (the actual scrollable container)
+  if (editorPane) {
+    editorPane.addEventListener('scroll', updateScrollPosition);
+  }
 
   // ========================================
   // 7. STARTUP ANIMATION
