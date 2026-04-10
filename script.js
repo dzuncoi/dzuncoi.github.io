@@ -52,9 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (splashDismissed) return;
     splashDismissed = true;
 
-    // Mark visited
-    sessionStorage.setItem('nvim-portfolio-visited', '1');
-
     // Fade out splash
     splashScreen.classList.add('hidden');
 
@@ -79,19 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { once: true });
   }
 
-  // Check if return visitor
-  const hasVisited = sessionStorage.getItem('nvim-portfolio-visited');
-  if (hasVisited && splashScreen) {
-    // Skip splash — show editor immediately
-    splashScreen.remove();
-    nvimRoot.classList.remove('loading');
-    nvimRoot.classList.add('ready');
-    if (hintBar) hintBar.style.opacity = '1';
-    // Expand sidebar for return visitors
-    if (sidebar) sidebar.classList.remove('collapsed');
-    splashDismissed = true;
-  }
-
   // Splash button click handlers
   splashBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -113,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.removeEventListener('keydown', splashKeyHandler);
   }
 
-  if (!hasVisited && splashScreen) {
+  if (splashScreen) {
     document.addEventListener('keydown', splashKeyHandler);
   }
 
