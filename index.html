@@ -11,7 +11,7 @@
 </head>
 <body>
 
-  <div class="nvim">
+  <div class="nvim" id="nvimRoot">
 
     <!-- ===== TABLINE ===== -->
     <div class="tabline">
@@ -589,6 +589,29 @@
         <span class="status-pos" id="statusPos">Ln 1, Col 1</span>
         <span class="status-pct">Top</span>
       </div>
+    </div>
+
+    <!-- ===== KEYBINDING HINT BAR ===== -->
+    <div class="hint-bar" id="hintBar">
+      <span class="hint-keys"><kbd>?</kbd> help</span>
+      <span class="hint-sep">|</span>
+      <span class="hint-keys"><kbd>1</kbd>-<kbd>5</kbd> buffers</span>
+      <span class="hint-sep">|</span>
+      <span class="hint-keys"><kbd>e</kbd> explorer</span>
+      <span class="hint-sep">|</span>
+      <span class="hint-keys"><kbd>j</kbd>/<kbd>k</kbd> scroll</span>
+      <span class="hint-sep">|</span>
+      <span class="hint-keys"><kbd>:</kbd> cmd</span>
+    </div>
+
+    <!-- ===== WELCOME TOAST ===== -->
+    <div class="welcome-toast" id="welcomeToast">
+      <div class="toast-icon">&#9889;</div>
+      <div class="toast-body">
+        <div class="toast-title">Welcome to my Neovim portfolio!</div>
+        <div class="toast-text">Use keyboard shortcuts to navigate. Press <kbd>?</kbd> to see all keybindings.</div>
+      </div>
+      <button class="toast-close" id="toastClose">&times;</button>
     </div>
 
     <!-- ===== COMMAND LINE ===== -->

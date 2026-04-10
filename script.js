@@ -301,4 +301,43 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial scroll position
   updateScrollPosition();
 
+  // ========================================
+  // 8. WELCOME TOAST (first visit)
+  // ========================================
+  const welcomeToast = document.getElementById('welcomeToast');
+  const toastClose   = document.getElementById('toastClose');
+
+  if (welcomeToast) {
+    const hasVisited = sessionStorage.getItem('nvim-portfolio-visited');
+
+    if (hasVisited) {
+      welcomeToast.remove();
+    } else {
+      sessionStorage.setItem('nvim-portfolio-visited', '1');
+
+      const autoDismiss = setTimeout(() => {
+        dismissToast();
+      }, 9500);
+
+      function dismissToast() {
+        clearTimeout(autoDismiss);
+        welcomeToast.classList.add('hidden');
+        welcomeToast.addEventListener('animationend', () => {
+          welcomeToast.remove();
+        }, { once: true });
+      }
+
+      if (toastClose) {
+        toastClose.addEventListener('click', dismissToast);
+      }
+
+      document.addEventListener('keydown', function dismissOnHelp(e) {
+        if (e.key === '?') {
+          dismissToast();
+          document.removeEventListener('keydown', dismissOnHelp);
+        }
+      });
+    }
+  }
+
 });
