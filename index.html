@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NVIM - portfolio.lua</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="nvim">
+
+    <!-- ===== TABLINE ===== -->
+    <div class="tabline">
+      <div class="tabs">
+        <button class="tab active" data-tab="about">
+          <span class="tab-icon icon-lua"></span>about.lua
+          <span class="tab-close">&times;</span>
+        </button>
+        <button class="tab" data-tab="experience">
+          <span class="tab-icon icon-log"></span>experience.log
+          <span class="tab-close">&times;</span>
+        </button>
+        <button class="tab" data-tab="projects">
+          <span class="tab-icon icon-json"></span>projects.json
+          <span class="tab-close">&times;</span>
+        </button>
+        <button class="tab" data-tab="skills">
+          <span class="tab-icon icon-yaml"></span>skills.yaml
+          <span class="tab-close">&times;</span>
+        </button>
+        <button class="tab" data-tab="contact">
+          <span class="tab-icon icon-sh"></span>contact.sh
+          <span class="tab-close">&times;</span>
+        </button>
+      </div>
+      <div class="tabline-fill"></div>
+    </div>
+
+    <!-- ===== MAIN AREA ===== -->
+    <div class="editor-area">
+
+      <!-- SIDEBAR (nvim-tree) -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <span class="sidebar-title">EXPLORER</span>
+          <button class="sidebar-collapse" id="sidebarToggle" aria-label="Toggle sidebar">&#x2630;</button>
+        </div>
+        <div class="tree">
+          <div class="tree-folder open">
+            <span class="tree-toggle">&#9662;</span>
+            <span class="folder-icon"></span>
+            <span class="folder-name">~/portfolio</span>
+          </div>
+          <div class="tree-children">
+            <button class="tree-file active" data-tab="about">
+              <span class="file-indent"></span>
+              <span class="file-icon icon-lua"></span>
+              <span class="file-name">about.lua</span>
+            </button>
+            <button class="tree-file" data-tab="experience">
+              <span class="file-indent"></span>
+              <span class="file-icon icon-log"></span>
+              <span class="file-name">experience.log</span>
+            </button>
+            <button class="tree-file" data-tab="projects">
+              <span class="file-indent"></span>
+              <span class="file-icon icon-json"></span>
+              <span class="file-name">projects.json</span>
+            </button>
+            <button class="tree-file" data-tab="skills">
+              <span class="file-indent"></span>
+              <span class="file-icon icon-yaml"></span>
+              <span class="file-name">skills.yaml</span>
+            </button>
+            <button class="tree-file" data-tab="contact">
+              <span class="file-indent"></span>
+              <span class="file-icon icon-sh"></span>
+              <span class="file-name">contact.sh</span>
+            </button>
+            <div class="tree-folder">
+              <span class="tree-toggle">&#9656;</span>
+              <span class="folder-icon"></span>
+              <span class="folder-name">.config</span>
+            </div>
+            <div class="tree-folder">
+              <span class="tree-toggle">&#9656;</span>
+              <span class="folder-icon"></span>
+              <span class="folder-name">node_modules</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- EDITOR PANE -->
+      <main class="editor-pane">
+
+        <!-- ~~~~ BUFFER: about.lua ~~~~ -->
+        <div class="buffer active" id="buf-about">
+          <div class="code-block">
+<pre class="line-numbers"><span class="ln"> 1</span>
+<span class="ln"> 2</span>
+<span class="ln"> 3</span>
+<span class="ln"> 4</span>
+<span class="ln"> 5</span>
+<span class="ln"> 6</span>
+<span class="ln"> 7</span>
+<span class="ln"> 8</span>
+<span class="ln"> 9</span>
+<span class="ln">10</span>
+<span class="ln">11</span>
+<span class="ln">12</span>
+<span class="ln">13</span>
+<span class="ln">14</span>
+<span class="ln">15</span>
+<span class="ln">16</span>
+<span class="ln">17</span>
+<span class="ln">18</span>
+<span class="ln">19</span>
+<span class="ln">20</span>
+<span class="ln">21</span>
+<span class="ln">22</span>
+<span class="ln">23</span>
+<span class="ln">24</span>
+<span class="ln">25</span>
+<span class="ln">26</span>
+<span class="ln">27</span>
+<span class="ln">28</span>
+<span class="ln">29</span>
+<span class="ln">30</span>
+<span class="ln">31</span>
+<span class="ln">32</span>
+<span class="ln">33</span>
+<span class="ln">34</span>
+<span class="ln">35</span>
+<span class="ln">36</span>
+<span class="ln">37</span>
+<span class="ln">38</span>
+<span class="ln">39</span>
+<span class="ln">40</span>
+<span class="ln">41</span>
+<span class="ln">42</span>
+<span class="ln">43</span>
+<span class="ln">44</span>
+<span class="ln">45</span>
+<span class="ln">46</span>
+<span class="ln">47</span>
+<span class="ln">48</span></pre>
+<pre class="code"><span class="cm">-- ============================================</span>
+<span class="cm">-- about.lua — Who am I?</span>
+<span class="cm">-- ============================================</span>
+
+<span class="kw">local</span> <span class="fn">M</span> = {}
+
+<span class="fn">M</span>.<span class="prop">name</span>        = <span class="str">"Your Name"</span>
+<span class="fn">M</span>.<span class="prop">role</span>        = <span class="str">"Software Engineer"</span>
+<span class="fn">M</span>.<span class="prop">location</span>    = <span class="str">"Your City, Country"</span>
+<span class="fn">M</span>.<span class="prop">email</span>       = <span class="str">"your@email.com"</span>
+<span class="fn">M</span>.<span class="prop">website</span>     = <span class="str">"https://yourname.dev"</span>
+<span class="fn">M</span>.<span class="prop">status</span>      = <span class="str">"Available for hire"</span>
+
+<span class="fn">M</span>.<span class="prop">socials</span> = {
+  <span class="prop">github</span>   = <span class="str">"<a href="#" class="code-link">github.com/yourname</a>"</span>,
+  <span class="prop">linkedin</span> = <span class="str">"<a href="#" class="code-link">linkedin.com/in/yourname</a>"</span>,
+  <span class="prop">twitter</span>  = <span class="str">"<a href="#" class="code-link">@yourhandle</a>"</span>,
+}
+
+<span class="cm">---@return string</span>
+<span class="kw">function</span> <span class="fn">M</span>.<span class="func">bio</span>()
+  <span class="kw">return</span> <span class="str">[[
+    Hello world! I'm a software engineer who lives in the
+    terminal and dreams in Lua. I started coding when I
+    opened the browser DevTools and thought "I can break this."
+    Turns out I could also build things.
+
+    Fast-forward a few thousand git commits later, and I've
+    shipped products at startups, enterprises, and open source
+    projects. My philosophy: if it can be automated, it should be.
+
+    When I'm not coding, you'll find me tinkering with Neovim
+    configs, reading RFCs for fun, or arguing about tabs vs
+    spaces (it's spaces, obviously).
+  ]]</span>
+<span class="kw">end</span>
+
+<span class="fn">M</span>.<span class="prop">fun_facts</span> = {
+  <span class="str">"I use Arch btw"</span>,
+  <span class="str">"My .dotfiles repo has more stars than my projects"</span>,
+  <span class="str">"I've spent more time configuring Neovim than sleeping"</span>,
+  <span class="str">"I think LSP errors are just suggestions"</span>,
+}
+
+<span class="kw">return</span> <span class="fn">M</span>
+<span class="cm">-- vim:ft=lua</span>
+</pre>
+          </div>
+        </div>
+
+        <!-- ~~~~ BUFFER: experience.log ~~~~ -->
+        <div class="buffer" id="buf-experience">
+          <div class="code-block">
+<pre class="line-numbers"><span class="ln"> 1</span>
+<span class="ln"> 2</span>
+<span class="ln"> 3</span>
+<span class="ln"> 4</span>
+<span class="ln"> 5</span>
+<span class="ln"> 6</span>
+<span class="ln"> 7</span>
+<span class="ln"> 8</span>
+<span class="ln"> 9</span>
+<span class="ln">10</span>
+<span class="ln">11</span>
+<span class="ln">12</span>
+<span class="ln">13</span>
+<span class="ln">14</span>
+<span class="ln">15</span>
+<span class="ln">16</span>
+<span class="ln">17</span>
+<span class="ln">18</span>
+<span class="ln">19</span>
+<span class="ln">20</span>
+<span class="ln">21</span>
+<span class="ln">22</span>
+<span class="ln">23</span>
+<span class="ln">24</span>
+<span class="ln">25</span>
+<span class="ln">26</span>
+<span class="ln">27</span>
+<span class="ln">28</span>
+<span class="ln">29</span>
+<span class="ln">30</span>
+<span class="ln">31</span>
+<span class="ln">32</span>
+<span class="ln">33</span>
+<span class="ln">34</span>
+<span class="ln">35</span>
+<span class="ln">36</span>
+<span class="ln">37</span>
+<span class="ln">38</span>
+<span class="ln">39</span></pre>
+<pre class="code"><span class="cm">-- ============================================</span>
+<span class="cm">-- experience.log — Work history</span>
+<span class="cm">-- ============================================</span>
+
+<span class="diff-add">[2024-01 ~ present]  Senior Software Engineer</span>
+<span class="diff-add">  Company Name | Location</span>
+  Led the development of scalable web applications
+  serving 100K+ users. Architected microservices
+  infrastructure and mentored junior developers.
+  <span class="kw">stack</span>: <span class="tag">React</span> <span class="tag">Node.js</span> <span class="tag">AWS</span> <span class="tag">TypeScript</span>
+
+<span class="diff-warn">[2022-03 ~ 2023-12]  Full Stack Developer</span>
+<span class="diff-warn">  Company Name | Location</span>
+  Built and maintained customer-facing features for a
+  SaaS platform. Improved page load performance by 40%
+  and implemented CI/CD pipelines.
+  <span class="kw">stack</span>: <span class="tag">Vue.js</span> <span class="tag">Python</span> <span class="tag">PostgreSQL</span> <span class="tag">Docker</span>
+
+<span class="diff-info">[2020-06 ~ 2022-02]  Junior Developer</span>
+<span class="diff-info">  Company Name | Location</span>
+  Developed responsive web interfaces and RESTful APIs.
+  Collaborated in agile teams to deliver features on
+  tight deadlines.
+  <span class="kw">stack</span>: <span class="tag">JavaScript</span> <span class="tag">HTML/CSS</span> <span class="tag">Express</span> <span class="tag">MongoDB</span>
+
+<span class="cm">-- Education</span>
+<span class="diff-del">[2016 ~ 2020]  B.S. Computer Science</span>
+<span class="diff-del">  University Name | Location</span>
+  Graduated with honors. Relevant coursework:
+  Data Structures, Algorithms, Distributed Systems,
+  Operating Systems, Computer Networks.
+
+<span class="cm">-- ============================================</span>
+<span class="cm">-- Total XP: 5+ years | Status: Leveling up</span>
+<span class="cm">-- ============================================</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+</pre>
+          </div>
+        </div>
+
+        <!-- ~~~~ BUFFER: projects.json ~~~~ -->
+        <div class="buffer" id="buf-projects">
+          <div class="code-block">
+<pre class="line-numbers"><span class="ln"> 1</span>
+<span class="ln"> 2</span>
+<span class="ln"> 3</span>
+<span class="ln"> 4</span>
+<span class="ln"> 5</span>
+<span class="ln"> 6</span>
+<span class="ln"> 7</span>
+<span class="ln"> 8</span>
+<span class="ln"> 9</span>
+<span class="ln">10</span>
+<span class="ln">11</span>
+<span class="ln">12</span>
+<span class="ln">13</span>
+<span class="ln">14</span>
+<span class="ln">15</span>
+<span class="ln">16</span>
+<span class="ln">17</span>
+<span class="ln">18</span>
+<span class="ln">19</span>
+<span class="ln">20</span>
+<span class="ln">21</span>
+<span class="ln">22</span>
+<span class="ln">23</span>
+<span class="ln">24</span>
+<span class="ln">25</span>
+<span class="ln">26</span>
+<span class="ln">27</span>
+<span class="ln">28</span>
+<span class="ln">29</span>
+<span class="ln">30</span>
+<span class="ln">31</span>
+<span class="ln">32</span>
+<span class="ln">33</span>
+<span class="ln">34</span>
+<span class="ln">35</span>
+<span class="ln">36</span>
+<span class="ln">37</span>
+<span class="ln">38</span>
+<span class="ln">39</span>
+<span class="ln">40</span>
+<span class="ln">41</span>
+<span class="ln">42</span>
+<span class="ln">43</span>
+<span class="ln">44</span>
+<span class="ln">45</span>
+<span class="ln">46</span>
+<span class="ln">47</span></pre>
+<pre class="code"><span class="punct">{</span>
+  <span class="prop">"projects"</span><span class="punct">:</span> <span class="punct">[</span>
+    <span class="punct">{</span>
+      <span class="prop">"name"</span><span class="punct">:</span>        <span class="str">"project-alpha"</span><span class="punct">,</span>
+      <span class="prop">"stars"</span><span class="punct">:</span>       <span class="num">128</span><span class="punct">,</span>
+      <span class="prop">"forks"</span><span class="punct">:</span>       <span class="num">34</span><span class="punct">,</span>
+      <span class="prop">"description"</span><span class="punct">:</span> <span class="str">"A web app for managing personal resource libraries with real-time sync and collaborative collections."</span><span class="punct">,</span>
+      <span class="prop">"stack"</span><span class="punct">:</span>       <span class="punct">[</span><span class="str">"React"</span><span class="punct">,</span> <span class="str">"Firebase"</span><span class="punct">,</span> <span class="str">"Tailwind"</span><span class="punct">,</span> <span class="str">"Framer Motion"</span><span class="punct">]</span><span class="punct">,</span>
+      <span class="prop">"demo"</span><span class="punct">:</span>        <span class="str">"<a href="#" class="code-link">https://alpha.yourname.dev</a>"</span><span class="punct">,</span>
+      <span class="prop">"repo"</span><span class="punct">:</span>        <span class="str">"<a href="#" class="code-link">github.com/yourname/project-alpha</a>"</span>
+    <span class="punct">}</span><span class="punct">,</span>
+    <span class="punct">{</span>
+      <span class="prop">"name"</span><span class="punct">:</span>        <span class="str">"project-beta"</span><span class="punct">,</span>
+      <span class="prop">"stars"</span><span class="punct">:</span>       <span class="num">89</span><span class="punct">,</span>
+      <span class="prop">"forks"</span><span class="punct">:</span>       <span class="num">21</span><span class="punct">,</span>
+      <span class="prop">"description"</span><span class="punct">:</span> <span class="str">"AI-powered dashboard that visualizes complex datasets with interactive charts and automated reporting."</span><span class="punct">,</span>
+      <span class="prop">"stack"</span><span class="punct">:</span>       <span class="punct">[</span><span class="str">"Next.js"</span><span class="punct">,</span> <span class="str">"D3.js"</span><span class="punct">,</span> <span class="str">"Python"</span><span class="punct">,</span> <span class="str">"OpenAI"</span><span class="punct">]</span><span class="punct">,</span>
+      <span class="prop">"demo"</span><span class="punct">:</span>        <span class="str">"<a href="#" class="code-link">https://beta.yourname.dev</a>"</span><span class="punct">,</span>
+      <span class="prop">"repo"</span><span class="punct">:</span>        <span class="str">"<a href="#" class="code-link">github.com/yourname/project-beta</a>"</span>
+    <span class="punct">}</span><span class="punct">,</span>
+    <span class="punct">{</span>
+      <span class="prop">"name"</span><span class="punct">:</span>        <span class="str">"project-gamma"</span><span class="punct">,</span>
+      <span class="prop">"stars"</span><span class="punct">:</span>       <span class="num">256</span><span class="punct">,</span>
+      <span class="prop">"forks"</span><span class="punct">:</span>       <span class="num">67</span><span class="punct">,</span>
+      <span class="prop">"description"</span><span class="punct">:</span> <span class="str">"Real-time messaging platform with E2E encryption, voice channels, and custom bot integrations."</span><span class="punct">,</span>
+      <span class="prop">"stack"</span><span class="punct">:</span>       <span class="punct">[</span><span class="str">"TypeScript"</span><span class="punct">,</span> <span class="str">"WebSocket"</span><span class="punct">,</span> <span class="str">"Redis"</span><span class="punct">,</span> <span class="str">"Docker"</span><span class="punct">]</span><span class="punct">,</span>
+      <span class="prop">"demo"</span><span class="punct">:</span>        <span class="str">"<a href="#" class="code-link">https://gamma.yourname.dev</a>"</span><span class="punct">,</span>
+      <span class="prop">"repo"</span><span class="punct">:</span>        <span class="str">"<a href="#" class="code-link">github.com/yourname/project-gamma</a>"</span>
+    <span class="punct">}</span>
+  <span class="punct">]</span><span class="punct">,</span>
+  <span class="prop">"total_contributions_2024"</span><span class="punct">:</span> <span class="num">1247</span><span class="punct">,</span>
+  <span class="prop">"favorite_license"</span><span class="punct">:</span>        <span class="str">"MIT"</span><span class="punct">,</span>
+  <span class="prop">"open_to_collaborate"</span><span class="punct">:</span>     <span class="bool">true</span>
+<span class="punct">}</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+</pre>
+          </div>
+        </div>
+
+        <!-- ~~~~ BUFFER: skills.yaml ~~~~ -->
+        <div class="buffer" id="buf-skills">
+          <div class="code-block">
+<pre class="line-numbers"><span class="ln"> 1</span>
+<span class="ln"> 2</span>
+<span class="ln"> 3</span>
+<span class="ln"> 4</span>
+<span class="ln"> 5</span>
+<span class="ln"> 6</span>
+<span class="ln"> 7</span>
+<span class="ln"> 8</span>
+<span class="ln"> 9</span>
+<span class="ln">10</span>
+<span class="ln">11</span>
+<span class="ln">12</span>
+<span class="ln">13</span>
+<span class="ln">14</span>
+<span class="ln">15</span>
+<span class="ln">16</span>
+<span class="ln">17</span>
+<span class="ln">18</span>
+<span class="ln">19</span>
+<span class="ln">20</span>
+<span class="ln">21</span>
+<span class="ln">22</span>
+<span class="ln">23</span>
+<span class="ln">24</span>
+<span class="ln">25</span>
+<span class="ln">26</span>
+<span class="ln">27</span>
+<span class="ln">28</span>
+<span class="ln">29</span>
+<span class="ln">30</span>
+<span class="ln">31</span>
+<span class="ln">32</span>
+<span class="ln">33</span>
+<span class="ln">34</span>
+<span class="ln">35</span>
+<span class="ln">36</span>
+<span class="ln">37</span>
+<span class="ln">38</span>
+<span class="ln">39</span>
+<span class="ln">40</span>
+<span class="ln">41</span>
+<span class="ln">42</span>
+<span class="ln">43</span>
+<span class="ln">44</span>
+<span class="ln">45</span>
+<span class="ln">46</span>
+<span class="ln">47</span>
+<span class="ln">48</span>
+<span class="ln">49</span>
+<span class="ln">50</span>
+<span class="ln">51</span>
+<span class="ln">52</span></pre>
+<pre class="code"><span class="cm"># ============================================</span>
+<span class="cm"># skills.yaml — Tech proficiency</span>
+<span class="cm"># ============================================</span>
+
+<span class="prop">languages</span><span class="punct">:</span>
+  - <span class="prop">name</span><span class="punct">:</span> <span class="str">JavaScript / TypeScript</span>
+    <span class="prop">level</span><span class="punct">:</span> <span class="bar"><span class="bar-fill" style="width:95%"></span></span> <span class="num">95</span>
+  - <span class="prop">name</span><span class="punct">:</span> <span class="str">Python</span>
+    <span class="prop">level</span><span class="punct">:</span> <span class="bar"><span class="bar-fill" style="width:88%"></span></span> <span class="num">88</span>
+  - <span class="prop">name</span><span class="punct">:</span> <span class="str">Rust</span>
+    <span class="prop">level</span><span class="punct">:</span> <span class="bar"><span class="bar-fill" style="width:65%"></span></span> <span class="num">65</span>
+  - <span class="prop">name</span><span class="punct">:</span> <span class="str">Go</span>
+    <span class="prop">level</span><span class="punct">:</span> <span class="bar"><span class="bar-fill" style="width:60%"></span></span> <span class="num">60</span>
+  - <span class="prop">name</span><span class="punct">:</span> <span class="str">SQL</span>
+    <span class="prop">level</span><span class="punct">:</span> <span class="bar"><span class="bar-fill" style="width:82%"></span></span> <span class="num">82</span>
+
+<span class="prop">frontend</span><span class="punct">:</span>
+  - <span class="prop">name</span><span class="punct">:</span> <span class="str">React / Next.js</span>
+    <span class="prop">level</span><span class="punct">:</span> <span class="bar"><span class="bar-fill" style="width:92%"></span></span> <span class="num">92</span>
+  - <span class="prop">name</span><span class="punct">:</span> <span class="str">Vue / Nuxt</span>
+    <span class="prop">level</span><span class="punct">:</span> <span class="bar"><span class="bar-fill" style="width:78%"></span></span> <span class="num">78</span>
+  - <span class="prop">name</span><span class="punct">:</span> <span class="str">Tailwind CSS</span>
+    <span class="prop">level</span><span class="punct">:</span> <span class="bar"><span class="bar-fill" style="width:90%"></span></span> <span class="num">90</span>
+
+<span class="prop">backend</span><span class="punct">:</span>
+  - <span class="prop">name</span><span class="punct">:</span> <span class="str">Node.js / Express</span>
+    <span class="prop">level</span><span class="punct">:</span> <span class="bar"><span class="bar-fill" style="width:87%"></span></span> <span class="num">87</span>
+  - <span class="prop">name</span><span class="punct">:</span> <span class="str">Django / FastAPI</span>
+    <span class="prop">level</span><span class="punct">:</span> <span class="bar"><span class="bar-fill" style="width:75%"></span></span> <span class="num">75</span>
+
+<span class="prop">devops</span><span class="punct">:</span>
+  - <span class="prop">name</span><span class="punct">:</span> <span class="str">Docker / Kubernetes</span>
+    <span class="prop">level</span><span class="punct">:</span> <span class="bar"><span class="bar-fill" style="width:80%"></span></span> <span class="num">80</span>
+  - <span class="prop">name</span><span class="punct">:</span> <span class="str">AWS / GCP</span>
+    <span class="prop">level</span><span class="punct">:</span> <span class="bar"><span class="bar-fill" style="width:78%"></span></span> <span class="num">78</span>
+  - <span class="prop">name</span><span class="punct">:</span> <span class="str">CI/CD</span>
+    <span class="prop">level</span><span class="punct">:</span> <span class="bar"><span class="bar-fill" style="width:85%"></span></span> <span class="num">85</span>
+  - <span class="prop">name</span><span class="punct">:</span> <span class="str">Terraform</span>
+    <span class="prop">level</span><span class="punct">:</span> <span class="bar"><span class="bar-fill" style="width:60%"></span></span> <span class="num">60</span>
+
+<span class="prop">tools</span><span class="punct">:</span>
+  - <span class="str">Neovim</span> <span class="cm"># the only editor</span>
+  - <span class="str">Git</span>
+  - <span class="str">tmux</span>
+  - <span class="str">Linux</span> <span class="cm"># I use Arch btw</span>
+  - <span class="str">PostgreSQL / Redis</span>
+  - <span class="str">MongoDB</span>
+
+<span class="cm"># vim: set ft=yaml :</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+<span class="tilde">~</span>
+</pre>
+          </div>
+        </div>
+
+        <!-- ~~~~ BUFFER: contact.sh ~~~~ -->
+        <div class="buffer" id="buf-contact">
+          <div class="code-block">
+<pre class="line-numbers"><span class="ln"> 1</span>
+<span class="ln"> 2</span>
+<span class="ln"> 3</span>
+<span class="ln"> 4</span>
+<span class="ln"> 5</span>
+<span class="ln"> 6</span>
+<span class="ln"> 7</span>
+<span class="ln"> 8</span>
+<span class="ln"> 9</span>
+<span class="ln">10</span>
+<span class="ln">11</span>
+<span class="ln">12</span>
+<span class="ln">13</span>
+<span class="ln">14</span>
+<span class="ln">15</span>
+<span class="ln">16</span>
+<span class="ln">17</span>
+<span class="ln">18</span>
+<span class="ln">19</span>
+<span class="ln">20</span>
+<span class="ln">21</span>
+<span class="ln">22</span>
+<span class="ln">23</span>
+<span class="ln">24</span>
+<span class="ln">25</span>
+<span class="ln">26</span>
+<span class="ln">27</span>
+<span class="ln">28</span>
+<span class="ln">29</span>
+<span class="ln">30</span>
+<span class="ln">31</span>
+<span class="ln">32</span>
+<span class="ln">33</span></pre>
+<pre class="code"><span class="cm">#!/bin/bash</span>
+<span class="cm"># ============================================</span>
+<span class="cm"># contact.sh — Get in touch</span>
+<span class="cm"># ============================================</span>
+
+<span class="kw">echo</span> <span class="str">"</span>
+<span class="str">  +-----------------------------------------------+</span>
+<span class="str">  |                                               |</span>
+<span class="str">  |   Want to work together? Have a question?     |</span>
+<span class="str">  |   My inbox is always open. Let's build        |</span>
+<span class="str">  |   something awesome together.                 |</span>
+<span class="str">  |                                               |</span>
+<span class="str">  +-----------------------------------------------+</span>
+<span class="str">"</span>
+
+<span class="cm"># Contact details</span>
+<span class="fn">EMAIL</span>=<span class="str">"<a href="mailto:your@email.com" class="code-link">your@email.com</a>"</span>
+<span class="fn">GITHUB</span>=<span class="str">"<a href="#" class="code-link">github.com/yourname</a>"</span>
+<span class="fn">LINKEDIN</span>=<span class="str">"<a href="#" class="code-link">linkedin.com/in/yourname</a>"</span>
+<span class="fn">TWITTER</span>=<span class="str">"<a href="#" class="code-link">@yourhandle</a>"</span>
+
+<span class="cm"># Send me a message</span>
+<span class="kw">function</span> <span class="func">send_message</span>() {
+  <span class="kw">local</span> <span class="fn">subject</span>=<span class="str">"$1"</span>
+  <span class="kw">local</span> <span class="fn">body</span>=<span class="str">"$2"</span>
+  <span class="kw">echo</span> <span class="str">"Sending: $subject"</span>
+  mail -s <span class="str">"$subject"</span> <span class="fn">$EMAIL</span> &lt;&lt;&lt; <span class="str">"$body"</span>
+  <span class="kw">echo</span> <span class="str">"Message sent! I'll get back to you ASAP."</span>
+}
+
+<span class="cm"># Usage: ./contact.sh "Hello!" "Let's collaborate"</span>
+<span class="func">send_message</span> <span class="str">"$1"</span> <span class="str">"$2"</span>
+<span class="tilde">~</span>
+</pre>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+    <!-- ===== STATUSLINE (lualine style) ===== -->
+    <div class="statusline">
+      <div class="status-left">
+        <span class="status-mode" id="statusMode">NORMAL</span>
+        <span class="status-git"><span class="git-icon"></span> main</span>
+        <span class="status-file" id="statusFile">about.lua</span>
+      </div>
+      <div class="status-center">
+        <span class="status-info" id="statusInfo">Hire me :)</span>
+      </div>
+      <div class="status-right">
+        <span class="status-ft" id="statusFt">lua</span>
+        <span class="status-enc">utf-8</span>
+        <span class="status-pos" id="statusPos">Ln 1, Col 1</span>
+        <span class="status-pct">Top</span>
+      </div>
+    </div>
+
+    <!-- ===== COMMAND LINE ===== -->
+    <div class="cmdline" id="cmdline">
+      <span class="cmdline-prompt">:</span>
+      <span class="cmdline-text" id="cmdlineText"></span>
+      <span class="cmdline-cursor">|</span>
+    </div>
+
+    <!-- ===== WHICH-KEY POPUP ===== -->
+    <div class="which-key" id="whichKey">
+      <div class="wk-title">Keybindings</div>
+      <div class="wk-grid">
+        <div class="wk-item"><kbd>1</kbd> <span>about.lua</span></div>
+        <div class="wk-item"><kbd>2</kbd> <span>experience.log</span></div>
+        <div class="wk-item"><kbd>3</kbd> <span>projects.json</span></div>
+        <div class="wk-item"><kbd>4</kbd> <span>skills.yaml</span></div>
+        <div class="wk-item"><kbd>5</kbd> <span>contact.sh</span></div>
+        <div class="wk-sep"></div>
+        <div class="wk-item"><kbd>e</kbd> <span>toggle explorer</span></div>
+        <div class="wk-item"><kbd>?</kbd> <span>toggle help</span></div>
+        <div class="wk-item"><kbd>j/k</kbd> <span>scroll</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

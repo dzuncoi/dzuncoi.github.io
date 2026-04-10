@@ -1,0 +1,860 @@
+/* ============================================================
+   NEOVIM PORTFOLIO — CATPPUCCIN MOCHA EDITION
+   Pixel-perfect Neovim clone: tabline, sidebar, buffers,
+   statusline, cmdline, which-key, syntax highlighting
+   ============================================================ */
+
+/* ---------- CATPPUCCIN MOCHA TOKENS ---------- */
+:root {
+  /* Base palette */
+  --ctp-rosewater: #f5e0dc;
+  --ctp-flamingo:  #f2cdcd;
+  --ctp-pink:      #f5c2e7;
+  --ctp-mauve:     #cba6f7;
+  --ctp-red:       #f38ba8;
+  --ctp-maroon:    #eba0ac;
+  --ctp-peach:     #fab387;
+  --ctp-yellow:    #f9e2af;
+  --ctp-green:     #a6e3a1;
+  --ctp-teal:      #94e2d5;
+  --ctp-sky:       #89dceb;
+  --ctp-sapphire:  #74c7ec;
+  --ctp-blue:      #89b4fa;
+  --ctp-lavender:  #b4befe;
+
+  /* Neutral palette */
+  --ctp-text:      #cdd6f4;
+  --ctp-subtext1:  #bac2de;
+  --ctp-subtext0:  #a6adc8;
+  --ctp-overlay2:  #9399b2;
+  --ctp-overlay1:  #7f849c;
+  --ctp-overlay0:  #6c7086;
+  --ctp-surface2:  #585b70;
+  --ctp-surface1:  #45475a;
+  --ctp-surface0:  #313244;
+  --ctp-base:      #1e1e2e;
+  --ctp-mantle:    #181825;
+  --ctp-crust:     #11111b;
+
+  /* Semantic aliases */
+  --bg:            var(--ctp-base);
+  --bg-dark:       var(--ctp-mantle);
+  --bg-darker:     var(--ctp-crust);
+  --fg:            var(--ctp-text);
+  --fg-dim:        var(--ctp-overlay0);
+  --border:        var(--ctp-surface0);
+  --selection:     rgba(88, 91, 112, 0.5);
+  --font:          'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+
+/* ---------- RESET ---------- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--ctp-crust);
+  color: var(--fg);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  height: 100vh;
+}
+
+a { color: var(--ctp-blue); text-decoration: none; }
+a:hover { color: var(--ctp-sky); }
+ul { list-style: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ---------- SELECTION ---------- */
+::selection {
+  background: var(--selection);
+  color: var(--ctp-text);
+}
+
+::-moz-selection {
+  background: var(--selection);
+  color: var(--ctp-text);
+}
+
+/* ---------- SCROLLBAR ---------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ctp-surface1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ctp-surface2);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ctp-surface1) transparent;
+}
+
+/* ============================================================
+   1. OVERALL LAYOUT — .nvim
+   ============================================================ */
+.nvim {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-areas:
+    "tabline"
+    "editor"
+    "statusline"
+    "cmdline";
+  background: var(--bg);
+  overflow: hidden;
+  border: 1px solid var(--ctp-surface0);
+}
+
+/* ============================================================
+   2. TABLINE
+   ============================================================ */
+.tabline {
+  grid-area: tabline;
+  background: var(--bg-darker);
+  border-bottom: 1px solid var(--ctp-surface0);
+  display: flex;
+  align-items: stretch;
+  min-height: 36px;
+  user-select: none;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow-x: auto;
+  flex: 1;
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  font-size: 12px;
+  color: var(--ctp-overlay1);
+  background: var(--bg-darker);
+  border-right: 1px solid var(--ctp-surface0);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  position: relative;
+}
+
+.tab:hover {
+  background: var(--ctp-surface0);
+  color: var(--ctp-subtext1);
+}
+
+.tab.active {
+  background: var(--bg);
+  color: var(--ctp-text);
+  border-bottom: 1px solid var(--bg);
+  margin-bottom: -1px;
+}
+
+.tab .close {
+  font-size: 14px;
+  color: var(--ctp-overlay0);
+  margin-left: 4px;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.tab:hover .close,
+.tab.active .close {
+  opacity: 1;
+}
+
+.tab .close:hover {
+  color: var(--ctp-red);
+}
+
+/* Tab file-type icons via ::before pseudo-element */
+.tab .icon-lua::before,
+.tab .icon-log::before,
+.tab .icon-json::before,
+.tab .icon-yaml::before,
+.tab .icon-sh::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  margin-right: 4px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.icon-lua::before  { background: var(--ctp-blue);   border-radius: 50%; }
+.icon-log::before  { background: var(--ctp-yellow);  border-radius: 50%; }
+.icon-json::before { background: var(--ctp-peach);   border-radius: 2px; }
+.icon-yaml::before { background: var(--ctp-pink);    border-radius: 2px; }
+.icon-sh::before   { background: var(--ctp-green);   border-radius: 50%; }
+
+/* ============================================================
+   3. EDITOR AREA
+   ============================================================ */
+.editor-area {
+  grid-area: editor;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ============================================================
+   4. SIDEBAR — file tree explorer
+   ============================================================ */
+.sidebar {
+  width: 220px;
+  min-width: 0;
+  background: var(--bg-dark);
+  border-right: 1px solid var(--ctp-surface0);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: width 0.25s ease;
+  flex-shrink: 0;
+}
+
+.sidebar.collapsed {
+  width: 0;
+  border-right: none;
+  overflow: hidden;
+}
+
+.sidebar-header {
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ctp-overlay2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--ctp-surface0);
+  white-space: nowrap;
+}
+
+.file-tree {
+  flex: 1;
+  padding: 4px 0;
+}
+
+.tree-folder {
+  user-select: none;
+}
+
+.tree-folder-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 12px;
+  font-size: 13px;
+  color: var(--ctp-subtext0);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tree-folder-label:hover {
+  background: var(--ctp-surface0);
+  color: var(--ctp-text);
+}
+
+.tree-folder-label .chevron {
+  font-size: 10px;
+  color: var(--ctp-overlay0);
+  transition: transform 0.15s ease;
+  display: inline-block;
+  width: 14px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.tree-folder.open > .tree-folder-label .chevron {
+  transform: rotate(90deg);
+}
+
+.tree-children {
+  padding-left: 12px;
+}
+
+.tree-file {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 12px 3px 16px;
+  font-size: 13px;
+  color: var(--ctp-overlay2);
+  cursor: pointer;
+  white-space: nowrap;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  font-family: inherit;
+  transition: background 0.1s ease, color 0.1s ease;
+}
+
+.tree-file:hover {
+  background: var(--ctp-surface0);
+  color: var(--ctp-text);
+}
+
+.tree-file.active {
+  background: var(--ctp-surface1);
+  color: var(--ctp-text);
+}
+
+/* ============================================================
+   5. EDITOR PANE — buffers & code blocks
+   ============================================================ */
+.editor-pane {
+  flex: 1;
+  overflow: auto;
+  min-width: 0;
+  background: var(--bg);
+  position: relative;
+}
+
+/* Buffers: only the active one is visible */
+.buffer {
+  display: none;
+  min-height: 100%;
+}
+
+.buffer.active {
+  display: block;
+}
+
+/* Code block layout: line numbers gutter + code content */
+.code-block {
+  display: flex;
+  flex-direction: row;
+  min-height: 100%;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.line-numbers {
+  width: 50px;
+  flex-shrink: 0;
+  text-align: right;
+  padding: 12px 8px 12px 0;
+  color: var(--ctp-surface2);
+  user-select: none;
+  font-size: 13px;
+  line-height: 1.7;
+  background: var(--bg);
+  border-right: 1px solid var(--ctp-surface0);
+}
+
+.line-numbers span {
+  display: block;
+  padding-right: 4px;
+}
+
+.code {
+  flex: 1;
+  padding: 12px 16px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ctp-text);
+}
+
+.code .line {
+  display: block;
+  min-height: 1.7em;
+}
+
+/* ============================================================
+   6. SYNTAX HIGHLIGHTING — Catppuccin Mocha
+   ============================================================ */
+.cm {
+  color: var(--ctp-overlay0);
+  font-style: italic;
+}
+
+.kw {
+  color: var(--ctp-mauve);
+}
+
+.fn {
+  color: var(--ctp-blue);
+}
+
+.func {
+  color: var(--ctp-sky);
+}
+
+.str {
+  color: var(--ctp-green);
+}
+
+.num {
+  color: var(--ctp-peach);
+}
+
+.prop {
+  color: var(--ctp-blue);
+}
+
+.punct {
+  color: var(--ctp-overlay2);
+}
+
+.bool {
+  color: var(--ctp-peach);
+}
+
+/* Tech/skill tag pill */
+.tag {
+  display: inline-block;
+  padding: 1px 8px;
+  font-size: 11px;
+  color: var(--ctp-green);
+  background: rgba(166, 227, 161, 0.08);
+  border: 1px solid rgba(166, 227, 161, 0.2);
+  border-radius: 4px;
+  margin: 0 2px;
+  vertical-align: baseline;
+  line-height: 1.6;
+}
+
+/* Tilde — vim empty line marker */
+.tilde {
+  color: var(--ctp-surface2);
+  user-select: none;
+}
+
+/* Diff indicators */
+.diff-add {
+  border-left: 3px solid var(--ctp-green);
+  background: rgba(166, 227, 161, 0.06);
+  padding-left: 12px;
+  margin-left: -15px;
+}
+
+.diff-warn {
+  border-left: 3px solid var(--ctp-yellow);
+  background: rgba(249, 226, 175, 0.06);
+  padding-left: 12px;
+  margin-left: -15px;
+}
+
+.diff-info {
+  border-left: 3px solid var(--ctp-blue);
+  background: rgba(137, 180, 250, 0.06);
+  padding-left: 12px;
+  margin-left: -15px;
+}
+
+.diff-del {
+  border-left: 3px solid var(--ctp-red);
+  background: rgba(243, 139, 168, 0.06);
+  padding-left: 12px;
+  margin-left: -15px;
+}
+
+/* Code links */
+.code-link {
+  color: var(--ctp-green);
+  text-decoration: none;
+  transition: text-decoration-color 0.15s ease;
+}
+
+.code-link:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--ctp-green);
+  color: var(--ctp-green);
+}
+
+/* Inline skill bar */
+.bar {
+  display: inline-block;
+  width: 120px;
+  height: 8px;
+  background: var(--ctp-surface0);
+  border-radius: 4px;
+  overflow: hidden;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+
+.bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--ctp-green), var(--ctp-teal));
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+   7. STATUSLINE
+   ============================================================ */
+.statusline {
+  grid-area: statusline;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-dark);
+  border-top: 1px solid var(--ctp-surface0);
+  font-size: 12px;
+  min-height: 28px;
+  user-select: none;
+  overflow: hidden;
+}
+
+.status-left,
+.status-center,
+.status-right {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.status-left {
+  flex-shrink: 0;
+}
+
+.status-center {
+  flex: 1;
+  justify-content: center;
+  color: var(--ctp-overlay1);
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 12px;
+}
+
+.status-right {
+  flex-shrink: 0;
+}
+
+/* Mode indicator */
+.status-mode {
+  padding: 4px 12px;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.status-mode.mode-normal {
+  background: var(--ctp-green);
+  color: var(--ctp-crust);
+}
+
+.status-mode.mode-insert {
+  background: var(--ctp-blue);
+  color: var(--ctp-crust);
+}
+
+.status-mode.visual {
+  background: var(--ctp-mauve);
+  color: var(--ctp-crust);
+}
+
+.status-mode.replace {
+  background: var(--ctp-red);
+  color: var(--ctp-crust);
+}
+
+/* Status segments */
+.status-segment {
+  padding: 4px 10px;
+  white-space: nowrap;
+  color: var(--ctp-subtext0);
+}
+
+.status-segment.git {
+  color: var(--ctp-peach);
+}
+
+.status-segment.filename {
+  color: var(--ctp-text);
+  font-weight: 500;
+}
+
+.status-segment.filetype {
+  color: var(--ctp-blue);
+}
+
+.status-segment.encoding {
+  color: var(--ctp-overlay1);
+}
+
+.status-segment.position {
+  color: var(--ctp-subtext1);
+  background: var(--ctp-surface0);
+  padding: 4px 12px;
+}
+
+.status-separator {
+  color: var(--ctp-surface1);
+  padding: 0 2px;
+}
+
+/* ============================================================
+   8. COMMAND LINE
+   ============================================================ */
+.cmdline { grid-area: cmdline; background: var(--bg); font-size: 13px; color: var(--ctp-text); display: flex; align-items: center; padding: 0 12px; opacity: 0; height: 0; overflow: hidden; transition: opacity 0.15s ease, height 0.15s ease; }
+.cmdline.active { opacity: 1; height: 28px; }
+.cmdline-prompt { color: var(--ctp-overlay2); margin-right: 4px; font-weight: 700; }
+.cmdline-input { flex: 1; background: none; border: none; outline: none; color: var(--ctp-text); font-family: var(--font); font-size: 13px; caret-color: var(--ctp-green); }
+.cmdline-cursor { display: inline-block; width: 7px; height: 1.2em; background: var(--ctp-text); animation: cursor-blink 1s step-end infinite; vertical-align: text-bottom; }
+@keyframes cursor-blink { 50% { opacity: 0; } }
+
+/* ============================================================
+   9. WHICH-KEY POPUP
+   ============================================================ */
+.which-key {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(24, 24, 37, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--ctp-surface1);
+  border-radius: 8px;
+  padding: 16px 24px;
+  min-width: 320px;
+  max-width: 90vw;
+  z-index: 1000;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+  /* Hidden by default */
+  display: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.which-key.active {
+  display: block;
+  opacity: 1;
+}
+
+.which-key-title {
+  font-size: 11px;
+  color: var(--ctp-overlay1);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--ctp-surface0);
+}
+
+.which-key-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.which-key-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.which-key-row kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  padding: 2px 8px;
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ctp-text);
+  background: var(--ctp-surface0);
+  border: 1px solid var(--ctp-surface1);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.which-key-row .desc {
+  color: var(--ctp-subtext0);
+  font-size: 12px;
+}
+
+.which-key-row .label {
+  color: var(--ctp-mauve);
+  font-weight: 500;
+  font-size: 12px;
+  margin-right: 4px;
+}
+
+/* ============================================================
+   10. RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  body {
+    font-size: 12px;
+  }
+
+  /* Hide sidebar on mobile */
+  .sidebar {
+    width: 0;
+    border-right: none;
+    overflow: hidden;
+  }
+
+  .sidebar.mobile-open {
+    width: 220px;
+    border-right: 1px solid var(--ctp-surface0);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 500;
+  }
+
+  /* Tabline scrollable */
+  .tabline {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .tabline::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+
+  /* Shrink code font */
+  .code-block {
+    font-size: 11px;
+  }
+
+  .line-numbers {
+    width: 36px;
+    font-size: 11px;
+  }
+
+  .code {
+    padding: 12px 10px;
+    font-size: 11px;
+  }
+
+  /* Statusline compaction */
+  .statusline {
+    font-size: 10px;
+  }
+
+  .status-mode {
+    padding: 3px 8px;
+    font-size: 10px;
+  }
+
+  .status-center {
+    display: none;
+  }
+
+  .status-segment {
+    padding: 3px 6px;
+    font-size: 10px;
+  }
+
+  /* Which-key responsive */
+  .which-key {
+    min-width: auto;
+    width: calc(100vw - 24px);
+    padding: 12px 16px;
+    bottom: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tab {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+
+  .tab .close {
+    display: none;
+  }
+
+  .line-numbers {
+    width: 30px;
+    font-size: 10px;
+  }
+
+  .code {
+    padding: 8px 8px;
+    font-size: 10px;
+  }
+
+  .status-segment.encoding,
+  .status-segment.filetype {
+    display: none;
+  }
+}
+
+/* ============================================================
+   UTILITY / MISC
+   ============================================================ */
+
+/* Cursor line highlight (optional per-buffer) */
+.line.current {
+  background: rgba(69, 71, 90, 0.25);
+}
+
+/* Indent guides (optional) */
+.indent-guide {
+  border-left: 1px solid var(--ctp-surface0);
+  padding-left: 1em;
+}
+
+/* Buffer modified indicator */
+.tab .modified {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ctp-peach);
+  display: inline-block;
+  margin-left: 4px;
+}
