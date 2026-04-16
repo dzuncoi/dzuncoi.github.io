@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NVIM - portfolio.lua</title>
+  <title>Dung Huynh portfolio</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,12 +41,7 @@
             <span class="splash-btn-icon">&#128188;</span>
             <span>Experience</span>
           </button>
-          <button class="splash-btn" data-tab="projects" role="button" aria-label="Open Projects">
-            <kbd>p</kbd>
-            <span class="splash-btn-icon">&#128187;</span>
-            <span>Projects</span>
-          </button>
-          <button class="splash-btn" data-tab="skills" role="button" aria-label="Open Skills">
+<button class="splash-btn" data-tab="skills" role="button" aria-label="Open Skills">
             <kbd>s</kbd>
             <span class="splash-btn-icon">&#9881;</span>
             <span>Skills</span>
@@ -74,16 +69,12 @@
           <span class="tab-num">2</span><span class="tab-icon icon-log"></span>experience.log
           <span class="tab-close">&times;</span>
         </button>
-        <button class="tab" data-tab="projects">
-          <span class="tab-num">3</span><span class="tab-icon icon-json"></span>projects.json
-          <span class="tab-close">&times;</span>
-        </button>
         <button class="tab" data-tab="skills">
-          <span class="tab-num">4</span><span class="tab-icon icon-yaml"></span>skills.yaml
+          <span class="tab-num">3</span><span class="tab-icon icon-yaml"></span>skills.yaml
           <span class="tab-close">&times;</span>
         </button>
         <button class="tab" data-tab="contact">
-          <span class="tab-num">5</span><span class="tab-icon icon-sh"></span>contact.sh
+          <span class="tab-num">4</span><span class="tab-icon icon-sh"></span>contact.sh
           <span class="tab-close">&times;</span>
         </button>
       </div>
@@ -116,12 +107,7 @@
               <span class="file-icon icon-log"></span>
               <span class="file-name">experience.log</span>
             </button>
-            <button class="tree-file" data-tab="projects">
-              <span class="file-indent"></span>
-              <span class="file-icon icon-json"></span>
-              <span class="file-name">projects.json</span>
-            </button>
-            <button class="tree-file" data-tab="skills">
+<button class="tree-file" data-tab="skills">
               <span class="file-indent"></span>
               <span class="file-icon icon-yaml"></span>
               <span class="file-name">skills.yaml</span>
@@ -339,107 +325,6 @@
 <span class="cm">-- ============================================</span>
 <span class="cm">-- Total XP: 9+ years | Status: Leveling up</span>
 <span class="cm">-- ============================================</span>
-<span class="tilde">~</span>
-<span class="tilde">~</span>
-<span class="tilde">~</span>
-</pre>
-          </div>
-        </div>
-
-        <!-- ~~~~ BUFFER: projects.json ~~~~ -->
-        <div class="buffer" id="buf-projects">
-          <div class="code-block">
-<pre class="line-numbers"><span class="ln"> 1</span>
-<span class="ln"> 2</span>
-<span class="ln"> 3</span>
-<span class="ln"> 4</span>
-<span class="ln"> 5</span>
-<span class="ln"> 6</span>
-<span class="ln"> 7</span>
-<span class="ln"> 8</span>
-<span class="ln"> 9</span>
-<span class="ln">10</span>
-<span class="ln">11</span>
-<span class="ln">12</span>
-<span class="ln">13</span>
-<span class="ln">14</span>
-<span class="ln">15</span>
-<span class="ln">16</span>
-<span class="ln">17</span>
-<span class="ln">18</span>
-<span class="ln">19</span>
-<span class="ln">20</span>
-<span class="ln">21</span>
-<span class="ln">22</span>
-<span class="ln">23</span>
-<span class="ln">24</span>
-<span class="ln">25</span>
-<span class="ln">26</span>
-<span class="ln">27</span>
-<span class="ln">28</span>
-<span class="ln">29</span>
-<span class="ln">30</span>
-<span class="ln">31</span>
-<span class="ln">32</span>
-<span class="ln">33</span>
-<span class="ln">34</span>
-<span class="ln">35</span>
-<span class="ln">36</span>
-<span class="ln">37</span>
-<span class="ln">38</span>
-<span class="ln">39</span>
-<span class="ln">40</span>
-<span class="ln">41</span>
-<span class="ln">42</span>
-<span class="ln">43</span>
-<span class="ln">44</span>
-<span class="ln">45</span>
-<span class="ln">46</span>
-<span class="ln">47</span></pre>
-<pre class="code"><span class="punct">{</span>
-  <span class="prop">"projects"</span><span class="punct">:</span> <span class="punct">[</span>
-    <span class="punct">{</span>
-      <span class="prop">"name"</span><span class="punct">:</span>        <span class="str">"project-alpha"</span><span class="punct">,</span>
-      <span class="prop">"stars"</span><span class="punct">:</span>       <span class="num">128</span><span class="punct">,</span>
-      <span class="prop">"forks"</span><span class="punct">:</span>       <span class="num">34</span><span class="punct">,</span>
-      <span class="prop">"description"</span><span class="punct">:</span> <span class="str">"A web app for managing personal resource libraries with real-time sync and collaborative collections."</span><span class="punct">,</span>
-      <span class="prop">"stack"</span><span class="punct">:</span>       <span class="punct">[</span><span class="str">"React"</span><span class="punct">,</span> <span class="str">"Firebase"</span><span class="punct">,</span> <span class="str">"Tailwind"</span><span class="punct">,</span> <span class="str">"Framer Motion"</span><span class="punct">]</span><span class="punct">,</span>
-      <span class="prop">"demo"</span><span class="punct">:</span>        <span class="str">"<a href="#" class="code-link">https://alpha.dzuncoi.dev</a>"</span><span class="punct">,</span>
-      <span class="prop">"repo"</span><span class="punct">:</span>        <span class="str">"<a href="#" class="code-link">github.com/dzuncoi/project-alpha</a>"</span>
-    <span class="punct">}</span><span class="punct">,</span>
-    <span class="punct">{</span>
-      <span class="prop">"name"</span><span class="punct">:</span>        <span class="str">"project-beta"</span><span class="punct">,</span>
-      <span class="prop">"stars"</span><span class="punct">:</span>       <span class="num">89</span><span class="punct">,</span>
-      <span class="prop">"forks"</span><span class="punct">:</span>       <span class="num">21</span><span class="punct">,</span>
-      <span class="prop">"description"</span><span class="punct">:</span> <span class="str">"AI-powered dashboard that visualizes complex datasets with interactive charts and automated reporting."</span><span class="punct">,</span>
-      <span class="prop">"stack"</span><span class="punct">:</span>       <span class="punct">[</span><span class="str">"Next.js"</span><span class="punct">,</span> <span class="str">"D3.js"</span><span class="punct">,</span> <span class="str">"Python"</span><span class="punct">,</span> <span class="str">"OpenAI"</span><span class="punct">]</span><span class="punct">,</span>
-      <span class="prop">"demo"</span><span class="punct">:</span>        <span class="str">"<a href="#" class="code-link">https://beta.dzuncoi.dev</a>"</span><span class="punct">,</span>
-      <span class="prop">"repo"</span><span class="punct">:</span>        <span class="str">"<a href="#" class="code-link">github.com/dzuncoi/project-beta</a>"</span>
-    <span class="punct">}</span><span class="punct">,</span>
-    <span class="punct">{</span>
-      <span class="prop">"name"</span><span class="punct">:</span>        <span class="str">"project-gamma"</span><span class="punct">,</span>
-      <span class="prop">"stars"</span><span class="punct">:</span>       <span class="num">256</span><span class="punct">,</span>
-      <span class="prop">"forks"</span><span class="punct">:</span>       <span class="num">67</span><span class="punct">,</span>
-      <span class="prop">"description"</span><span class="punct">:</span> <span class="str">"Real-time messaging platform with E2E encryption, voice channels, and custom bot integrations."</span><span class="punct">,</span>
-      <span class="prop">"stack"</span><span class="punct">:</span>       <span class="punct">[</span><span class="str">"TypeScript"</span><span class="punct">,</span> <span class="str">"WebSocket"</span><span class="punct">,</span> <span class="str">"Redis"</span><span class="punct">,</span> <span class="str">"Docker"</span><span class="punct">]</span><span class="punct">,</span>
-      <span class="prop">"demo"</span><span class="punct">:</span>        <span class="str">"<a href="#" class="code-link">https://gamma.dzuncoi.dev</a>"</span><span class="punct">,</span>
-      <span class="prop">"repo"</span><span class="punct">:</span>        <span class="str">"<a href="#" class="code-link">github.com/dzuncoi/project-gamma</a>"</span>
-    <span class="punct">}</span>
-  <span class="punct">]</span><span class="punct">,</span>
-  <span class="prop">"total_contributions_2024"</span><span class="punct">:</span> <span class="num">1247</span><span class="punct">,</span>
-  <span class="prop">"favorite_license"</span><span class="punct">:</span>        <span class="str">"MIT"</span><span class="punct">,</span>
-  <span class="prop">"open_to_collaborate"</span><span class="punct">:</span>     <span class="bool">true</span>
-<span class="punct">}</span>
-<span class="tilde">~</span>
-<span class="tilde">~</span>
-<span class="tilde">~</span>
-<span class="tilde">~</span>
-<span class="tilde">~</span>
-<span class="tilde">~</span>
-<span class="tilde">~</span>
-<span class="tilde">~</span>
-<span class="tilde">~</span>
-<span class="tilde">~</span>
 <span class="tilde">~</span>
 <span class="tilde">~</span>
 <span class="tilde">~</span>

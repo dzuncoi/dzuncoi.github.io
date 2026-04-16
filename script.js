@@ -12,12 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const TAB_MAP = {
     about:      { file: 'about.lua',      ft: 'lua'  },
     experience: { file: 'experience.log',  ft: 'log'  },
-    projects:   { file: 'projects.json',   ft: 'json' },
     skills:     { file: 'skills.yaml',     ft: 'yaml' },
     contact:    { file: 'contact.sh',      ft: 'sh'   },
   };
 
-  const TAB_KEYS = ['about', 'experience', 'projects', 'skills', 'contact'];
+  const TAB_KEYS = ['about', 'experience', 'skills', 'contact'];
 
   // ========================================
   // DOM REFS
@@ -84,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Splash keyboard handler (any key dismisses, specific keys go to specific tabs)
-  const SPLASH_KEY_MAP = { a: 'about', x: 'experience', p: 'projects', s: 'skills', c: 'contact' };
+  const SPLASH_KEY_MAP = { a: 'about', x: 'experience', s: 'skills', c: 'contact' };
 
   function splashKeyHandler(e) {
     if (splashDismissed) {
