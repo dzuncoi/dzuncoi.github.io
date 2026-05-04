@@ -104,6 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let cmdlineTimer    = null;
   let modeTimer       = null;
   let msgTimer        = null;
+  let gPending        = false;
+  let gTimer          = null;
 
   // ========================================
   // 1. TAB SWITCHING
@@ -220,6 +222,57 @@ document.addEventListener('DOMContentLoaded', () => {
     if (key === 'k') {
       e.preventDefault();
       scrollActiveBuffer(-80);
+      return;
+    }
+
+    // G: jump to bottom of buffer
+    if (key === 'G' && !e.ctrlKey && !e.metaKey) {
+      e.preventDefault();
+      gPending = false;
+      if (editorPane) {
+        editorPane.scrollTo({ top: editorPane.scrollHeight, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    // gg: jump to top of buffer (two-key sequence)
+    if (key === 'g' && !e.ctrlKey && !e.metaKey) {
+      if (gPending) {
+        e.preventDefault();
+        gPending = false;
+        if (gTimer) { clearTimeout(gTimer); gTimer = null; }
+        if (editorPane) {
+          editorPane.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      } else {
+        gPending = true;
+        if (gTimer) clearTimeout(gTimer);
+        gTimer = setTimeout(() => { gPending = false; }, 500);
+      }
+      return;
+    }
+
+    // Reset g pending on any other key
+    if (gPending) {
+      gPending = false;
+      if (gTimer) { clearTimeout(gTimer); gTimer = null; }
+    }
+
+    // Ctrl+d: half-page scroll down
+    if (key === 'd' && e.ctrlKey) {
+      e.preventDefault();
+      if (editorPane) {
+        editorPane.scrollBy({ top: editorPane.clientHeight / 2, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    // Ctrl+u: half-page scroll up
+    if (key === 'u' && e.ctrlKey) {
+      e.preventDefault();
+      if (editorPane) {
+        editorPane.scrollBy({ top: -(editorPane.clientHeight / 2), behavior: 'smooth' });
+      }
       return;
     }
 
